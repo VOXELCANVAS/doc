@@ -20,6 +20,7 @@ Voxengine.prototype.initialize = function() {
 // ---------------------------------------------
 // utility methods
 // ---------------------------------------------
+
 Voxengine.prototype.convertToChunkIdx = function(v) {
     var x = Math.floor(v.x / this.chunkSize);
     var y = Math.floor(v.y / this.chunkSize);
@@ -186,7 +187,10 @@ Voxengine.prototype.makeChunkRefresh = function(cIdx) {
 // methods to inport/export a vox data
 // ---------------------------------------------
 
-// 津田フォーマットテキストを出力
+/** 
+ * 津田フォーマットでボクセルを出力
+ * @return {string} 津田フォーマットテキスト
+ */
 Voxengine.prototype.exportOriginalFormat = function() {
     // format = (x,y,z,(r,g,b,a,)"a")*
     var exp = "";
