@@ -45,7 +45,6 @@ ve3.VoxEngine.prototype.putVox = function(position, color) {
     if(chunk === null) {
         chunk = this.createChunk(cidx);
     }
-    let 
 };
 
 
