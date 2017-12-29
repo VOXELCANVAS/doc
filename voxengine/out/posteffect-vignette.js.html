@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: posteffect-vignette.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: posteffect-vignette.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>//--------------- POST EFFECT DEFINITION ------------------------//
+pc.extend(pc, function () {
+
+    /**
+     * @name pc.VignetteEffect
+     * @class Implements the VignetteEffect post processing effect.
+     * @extends pc.PostEffect
+     * @param {pc.GraphicsDevice} graphicsDevice The graphics device of the application
+     * @property {Number} offset Controls the offset of the effect.
+     * @property {Number} darkness Controls the darkness of the effect.
+     */
+    var VignetteEffect = function (graphicsDevice) {
+        // Shaders
+        var attributes = {
+            aPosition: pc.SEMANTIC_POSITION
+        };
+
+        var passThroughVert = [
+            "attribute vec2 aPosition;",
+            "",
+            "varying vec2 vUv0;",
+            "",
+            "void main(void)",
+            "{",
+            "    gl_Position = vec4(aPosition, 0.0, 1.0);",
+            "    vUv0 = (aPosition.xy + 1.0) * 0.5;",
+            "}"
+        ].join("\n");
+
+        var luminosityFrag = [
+            "precision " + graphicsDevice.precision + " float;",
+            "",
+            "uniform sampler2D uColorBuffer;",
+            "uniform float uDarkness;",
+            "uniform float uOffset;",
+            "",
+            "varying vec2 vUv0;",
+            "",
+            "void main() {",
+            "    vec4 texel = texture2D(uColorBuffer, vUv0);",
+            "    vec2 uv = (vUv0 - vec2(0.5)) * vec2(uOffset);",
+            "    gl_FragColor = vec4(mix(texel.rgb, vec3(1.0 - uDarkness), dot(uv, uv)), texel.a);",
+            "}"
+        ].join("\n");
+
+        this.vignetteShader = new pc.Shader(graphicsDevice, {
+            attributes: attributes,
+            vshader: passThroughVert,
+            fshader: luminosityFrag
+        });
+
+        this.offset = 1;
+        this.darkness = 1;
+    };
+
+    VignetteEffect = pc.inherits(VignetteEffect, pc.PostEffect);
+
+    VignetteEffect.prototype = pc.extend(VignetteEffect, {
+        render: function (inputTarget, outputTarget, rect) {
+            var device = this.device;
+            var scope = device.scope;
+
+            scope.resolve("uColorBuffer").setValue(inputTarget.colorBuffer);
+            scope.resolve("uOffset").setValue(this.offset);
+            scope.resolve("uDarkness").setValue(this.darkness);
+            pc.drawFullscreenQuad(device, outputTarget, this.vertexBuffer, this.vignetteShader, rect);
+        }
+    });
+
+    return {
+        VignetteEffect: VignetteEffect
+    };
+}());
+
+
+//--------------- SCRIPT DEFINITION------------------------//
+var Vignette = pc.createScript('vignette');
+
+Vignette.attributes.add('offset', {
+    type: 'number',
+    default: 1,
+    min: 0,
+    precision: 5,
+    title: 'Offset'
+});
+
+Vignette.attributes.add('darkness', {
+    type: 'number',
+    default: 1,
+    precision: 5,
+    title: 'Darkness'
+});
+
+// initialize code called once per entity
+Vignette.prototype.initialize = function() {
+    this.effect = new pc.VignetteEffect(this.app.graphicsDevice);
+    var self = this;
+    this.effect.offset = this.offset;
+    this.effect.darkness = this.darkness;
+
+    this.on('attr', function (name, value) {
+        this.effect[name] = value;
+    }, this);
+
+    var queue = this.entity.camera.postEffects;
+    //queue.addEffect(this.effect);
+
+    this.on('state', function (enabled) {
+        if (enabled) {
+            queue.addEffect(this.effect);
+        } else {
+            queue.removeEffect(this.effect);
+        }
+    });
+
+    this.on('destroy', function () {
+        queue.removeEffect(this.effect);
+    });
+    
+    voxUI.on("UI:camera:vignette",function(){
+        if(voxUI.camera_vignette.checked){
+            queue.addEffect(self.effect);
+        } else {
+            queue.removeEffect(self.effect);
+        }
+    });
+};</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Creates%252520new%252520instance%252520of%252520the%252520post%252520effect..html">Creates new instance of the post effect.</a></li><li><a href="pc.VignetteEffect.html">VignetteEffect</a></li></ul><h3>Global</h3><ul><li><a href="global.html#GIFEncoder">GIFEncoder</a></li><li><a href="global.html#LZWEncoder">LZWEncoder</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Dec 30 2017 01:41:50 GMT+0900 (東京 (標準時))
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
