@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: VignetteEffect</title>
+    <title>JSDoc: Class: ボクセルデータを管理/編集するための機能</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: VignetteEffect</h1>
+    <h1 class="page-title">Class: ボクセルデータを管理/編集するための機能</h1>
 
     
 
@@ -28,9 +28,7 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>VignetteEffect<span class="signature">(graphicsDevice)</span><span class="type-signature"></span></h2>
-        
-            <div class="class-description">Implements the VignetteEffect post processing effect.</div>
+        <h2><span class="attribs"><span class="type-signature"></span></span>ボクセルデータを管理/編集するための機能<span class="signature">()</span><span class="type-signature"></span></h2>
         
     
 </header>
@@ -41,14 +39,12 @@
         
 
     
-    <h2>Constructor</h2>
+
+    
+    <h4 class="name" id="ボクセルデータを管理/編集するための機能"><span class="type-signature"></span>new ボクセルデータを管理/編集するための機能<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
-    <h4 class="name" id="VignetteEffect"><span class="type-signature"></span>new VignetteEffect<span class="signature">(graphicsDevice)</span><span class="type-signature"></span></h4>
-    
-
-    
 
 
 
@@ -58,55 +54,6 @@
 
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>graphicsDevice</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">pc.GraphicsDevice</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The graphics device of the application</td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -139,7 +86,7 @@
 
         <tr>
             
-                <td class="name"><code>offset</code></td>
+                <td class="name"><code>chunkGrid</code></td>
             
 
             <td class="type">
@@ -155,14 +102,14 @@
 
             
 
-            <td class="description last">Controls the offset of the effect.</td>
+            <td class="description last">ボクセルデータを内包するチャンク空間</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>darkness</code></td>
+                <td class="name"><code>voxCount</code></td>
             
 
             <td class="type">
@@ -178,7 +125,7 @@
 
             
 
-            <td class="description last">Controls the darkness of the effect.</td>
+            <td class="description last">Voxengineを通して編集された実体のあるボクセル数</td>
         </tr>
 
     
@@ -217,7 +164,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="posteffect-vignette.js.html">posteffect-vignette.js</a>, <a href="posteffect-vignette.js.html#line4">line 4</a>
+        <a href="voxengine.js.html">voxengine.js</a>, <a href="voxengine.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -247,17 +194,6 @@
 
     
     </div>
-
-    
-        <h3 class="subsection-title">Extends</h3>
-
-        
-
-
-    <ul>
-        <li>pc.PostEffect</li>
-    </ul>
-
 
     
 
