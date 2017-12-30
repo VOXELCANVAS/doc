@@ -1,3 +1,9 @@
+/**
+ * @name Voxengine
+ * @class ボクセルデータを管理/編集するための機能
+ * @property {Number} chunkGrid ボクセルデータを内包するチャンク空間
+ * @property {Number} voxCount Voxengineを通して編集された実体のあるボクセル数
+ */
 var Voxengine = pc.createScript('voxengine');
 
 Voxengine.attributes.add('chunkEntity', {
